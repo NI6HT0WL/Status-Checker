@@ -19,7 +19,15 @@ def getTime():
     print("Time:", current_time)
 
 # Define sites to check status
-sitesToCheck = ["google.com", "1.2.4.2", "bbc.co.uk"]
+sitesToCheck = []
+
+def fileHandler():
+    with open('domains.txt') as domainFile:
+        for line in domainFile:
+            stripLine = line.strip("\n")
+            sitesToCheck.append(stripLine)
+    print("These domains will be checked: " + str(sitesToCheck))
+    return schTime()
 
 # Pings each site from array and checks for reply
 # if site responds to ICMP then print live
@@ -34,7 +42,10 @@ def pingCheck():
             print(colored(0, 128, 0, site + ": Live"))
 
 # Run every 15 seconds
-while True:
-    sleep(15 - time() % 15)
-    getTime()
-    pingCheck()
+def schTime():
+    while True:
+        sleep(15 - time() % 15)
+        getTime()
+        pingCheck()
+
+fileHandler()
